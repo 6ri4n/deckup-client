@@ -1,5 +1,5 @@
 import { useState } from "react";
-import MobileButton from "../MobileButton";
+import MobileButton from "../ui/MobileButton";
 function Navbar({ priNav1, priNav2, secNav1, secNav2 }) {
   const [expand, setExpand] = useState(false);
   const handleDropDown = () => {
