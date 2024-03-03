@@ -1,5 +1,5 @@
 import { useRef } from "react";
-function LoginPage() {
+function SignupPage() {
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
 
@@ -95,4 +95,4 @@ function LoginPage() {
   );
 }
 
-export default LoginPage;
+export default SignupPage;
