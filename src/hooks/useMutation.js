@@ -1,38 +1,55 @@
 import { useEffect, useState } from "react";
 import APIClient from "../services/apiClient";
 
-const useMutation = (action, url, data = null) => {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+const useMutation = (method, url, data = null) => {
+  const [state, setState] = useState({
+    data: null,
+    loading: false,
+    error: null,
+  });
 
   useEffect(() => {
-    const api = APIClient();
+    const api = new APIClient();
 
-    // available actions: POST, GET, PATCH, DELETE
-    const requestMethod = api[action.toLowerCase()];
+    // available methods: POST, GET, PATCH, DELETE
+    const requestMethod = api[method.toLowerCase()];
 
     if (!requestMethod) {
-      setError(new Error("Invalid Action."));
-      setLoading(false);
+      setState({
+        data: null,
+        loading: false,
+        error: new Error("Invalid Method."),
+      });
       return;
     }
 
-    setLoading(true);
+    setState((prev) => ({
+      ...prev,
+      loading: true,
+    }));
 
     requestMethod(url, data)
       .then((response) => {
-        setData(response.data);
+        setState((prev) => ({
+          ...prev,
+          data: response.data,
+        }));
       })
       .catch((error) => {
-        setError(error);
+        setState((prev) => ({
+          ...prev,
+          error: error,
+        }));
       })
       .finally(() => {
-        setLoading(false);
+        setState((prev) => ({
+          ...prev,
+          loading: false,
+        }));
       });
-  }, [action, url, data]);
+  }, [method, url, data]);
 
-  return { data, loading, error };
+  return { ...state };
 };
 
 export default useMutation;
