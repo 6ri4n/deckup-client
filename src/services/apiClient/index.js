@@ -50,7 +50,7 @@ function getRefreshToken() {
 }
 
 class APIClient {
-  constructor(accessToken) {
+  constructor(accessToken = null) {
     this.accessToken = accessToken;
     axiosInstance.defaults.headers.common[
       "Authorization"
