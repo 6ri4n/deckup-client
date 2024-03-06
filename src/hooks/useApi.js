@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
+// retrieve access token from auth context
 const accessToken = "";
 
 const axiosInstance = axios.create({
@@ -8,7 +9,7 @@ const axiosInstance = axios.create({
   timeout: 5000,
   headers: {
     "Content-Type": "application/json",
-    Authorization: `Bearer ${accessToken}`, // retrieve access token from auth context
+    Authorization: `Bearer ${accessToken}`,
   },
   withCredentials: true,
 });
@@ -47,16 +48,16 @@ const useApi = (method, url, payload = null) => {
         }));
       } catch (error) {
         if (
-          error?.response.status === 403 &&
-          error?.response.data.error.includes("expired")
+          error.response?.status === 403 &&
+          error.response?.data.error.includes("expired")
         ) {
           await retryRequest(requestMethod, url, payload);
         } else {
           setState((prev) => ({
             ...prev,
             error: {
-              status: error?.response.status,
-              message: error?.response.data.error,
+              status: error.response?.status,
+              message: error.response?.data.error,
             },
           }));
         }
@@ -90,10 +91,12 @@ const useApi = (method, url, payload = null) => {
         setState((prev) => ({
           ...prev,
           error: {
-            status: error?.response.status,
-            message: error?.response.data.error,
+            status: error.response?.status,
+            message: error.response?.data.error,
           },
         }));
+
+        // TODO: route user back to login page
       }
     };
 
