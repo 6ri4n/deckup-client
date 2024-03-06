@@ -69,7 +69,7 @@ const useApi = (method, url, payload = undefined) => {
       }
     };
 
-    const retryRequest = async (requestMethod, url, payload = null) => {
+    const retryRequest = async (requestMethod, url, payload = undefined) => {
       try {
         // attempt to refresh access token
         const response = await axiosInstance.post("/account/refresh");
