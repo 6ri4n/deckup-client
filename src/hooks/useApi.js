@@ -14,11 +14,11 @@ const axiosInstance = axios.create({
   withCredentials: true,
 });
 
-const useApi = (method, url, payload = null) => {
+const useApi = (method, url, payload = undefined) => {
   const [state, setState] = useState({
-    data: null,
+    data: undefined,
     loading: false,
-    error: { status: null, message: null },
+    error: { status: undefined, message: undefined },
   });
 
   useEffect(() => {
@@ -44,7 +44,7 @@ const useApi = (method, url, payload = null) => {
         setState((prev) => ({
           ...prev,
           data: response.data,
-          error: { status: null, message: null },
+          error: { status: undefined, message: undefined },
         }));
       } catch (error) {
         if (
@@ -69,7 +69,7 @@ const useApi = (method, url, payload = null) => {
       }
     };
 
-    const retryRequest = async (requestMethod, url, payload = null) => {
+    const retryRequest = async (requestMethod, url, payload = undefined) => {
       try {
         // attempt to refresh access token
         const response = await axiosInstance.post("/account/refresh");
@@ -85,7 +85,7 @@ const useApi = (method, url, payload = null) => {
         setState((prev) => ({
           ...prev,
           data: retryResponse.data,
-          error: { status: null, message: null },
+          error: { status: undefined, message: undefined },
         }));
       } catch (error) {
         setState((prev) => ({
