@@ -2,8 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 
 // retrieve access token from auth context
-const accessToken =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QxIiwiaWQiOiI2NWUxMjQ3OGQzMmQ3YWYzNWE0NGVhZTMiLCJpYXQiOjE3MDk5NDA0NTgsImV4cCI6MTcwOTk0MDUxOH0.KiVFBSyXqIEqrRV_O9qARRQMiXDW5Owr9_bwz1QfGKo";
+const accessToken = "";
 
 const axiosInstance = axios.create({
   baseURL: "http://localhost:4000",
