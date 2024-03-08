@@ -8,6 +8,9 @@ function SignupForm() {
   const [passwordError, setPasswordError] = useState("");
   const [usernameError, setUsernameError] = useState("");
 
+  // state for strong password check wip
+  const [strongPassError, setStrongPassError] = useState("");
+
   const FormValidation = () => {
     ValidateForm(
       passwordRef,

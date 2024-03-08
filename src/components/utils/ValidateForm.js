@@ -10,9 +10,10 @@ const ValidateForm = (
   const password = passwordRef.current.value;
   const confirmPassword = confirmPasswordRef.current.value;
   const username = usernameRef.current.value;
-  const errorMessage =
+
+  const usernameErrorMessage =
     username.length < 4 ? "Username must be greater than 4 characters!" : "";
-  setUsernameError(errorMessage);
+  setUsernameError(usernameErrorMessage);
 
   if (password !== "" && confirmPassword !== "") {
     if (password !== confirmPassword) {
