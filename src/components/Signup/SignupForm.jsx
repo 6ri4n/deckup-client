@@ -1,19 +1,27 @@
 import { useRef, useState } from "react";
-import ValidatePasswords from "../utils/ValidatePasswords";
+import ValidateForm from "../utils/ValidateForm";
 
 function SignupForm() {
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
   const confirmPasswordRef = useRef(null);
   const [passwordError, setPasswordError] = useState("");
+  const [usernameError, setUsernameError] = useState("");
 
-  const handlePasswordChange = () => {
-    ValidatePasswords(
+  const FormValidation = () => {
+    ValidateForm(
       passwordRef,
       confirmPasswordRef,
       passwordError,
-      setPasswordError
+      setPasswordError,
+      usernameRef,
+      usernameError,
+      setUsernameError
     );
+  };
+
+  const handleFormValidationChange = () => {
+    FormValidation();
   };
 
   const handleSubmit = (event) => {
@@ -21,14 +29,13 @@ function SignupForm() {
     const username = usernameRef.current.value;
     const password = passwordRef.current.value;
     const confirmPassword = confirmPasswordRef.current.value;
-    ValidatePasswords();
-    if (!passwordError) {
+    FormValidation();
+    if (!passwordError && !usernameError) {
       const payload = JSON.stringify({
         username,
         password,
         confirmPassword,
       });
-      // handle login endpoint request here
     }
   };
 
@@ -40,6 +47,7 @@ function SignupForm() {
           id="username"
           placeholder="Username"
           ref={usernameRef}
+          onChange={handleFormValidationChange}
           className="peer mt-1 w-full border-b-2 border-gray-300 px-0 py-1 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
           autoComplete="NA"
         />
@@ -49,6 +57,9 @@ function SignupForm() {
         >
           Username
         </label>
+        {usernameError && (
+          <div className="text-red-500 text-sm mt-2">{usernameError}</div>
+        )}
       </div>
       <div className="relative mt-6">
         <input
@@ -56,7 +67,7 @@ function SignupForm() {
           name="password"
           id="password"
           ref={passwordRef}
-          onChange={handlePasswordChange}
+          onChange={handleFormValidationChange}
           placeholder="Password"
           className="peer peer mt-1 w-full border-b-2 border-gray-300 px-0 py-1 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
         />
@@ -73,7 +84,7 @@ function SignupForm() {
           name="password"
           id="confirmPassword"
           ref={confirmPasswordRef}
-          onChange={handlePasswordChange}
+          onChange={handleFormValidationChange}
           placeholder="Confirm Password"
           className="peer peer mt-1 w-full border-b-2 border-gray-300 px-0 py-1 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
         />
