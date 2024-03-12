@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import ValidateForm from "../utils/ValidateForm";
+import StrongPassword from "../utils/StrongPassword";
 
 function SignupForm() {
   const usernameRef = useRef(null);
@@ -7,9 +8,7 @@ function SignupForm() {
   const confirmPasswordRef = useRef(null);
   const [passwordError, setPasswordError] = useState("");
   const [usernameError, setUsernameError] = useState("");
-
-  // state for strong password check wip
-  const [strongPassError, setStrongPassError] = useState("");
+  const [strongPassError, setStrongPassError] = useState(false);
 
   const FormValidation = () => {
     ValidateForm(
@@ -33,7 +32,8 @@ function SignupForm() {
     const password = passwordRef.current.value;
     const confirmPassword = confirmPasswordRef.current.value;
     FormValidation();
-    if (!passwordError && !usernameError) {
+    StrongPassword(passwordRef, strongPassError, setStrongPassError);
+    if (!passwordError && !usernameError && !strongPassError) {
       const payload = JSON.stringify({
         username,
         password,
@@ -98,6 +98,20 @@ function SignupForm() {
           Confirm Password
         </label>
       </div>
+      {strongPassError && (
+        <div>
+          <div className="text-red-500 text-sm mt-2">
+            Password must be 6 characters long
+          </div>
+          <div className="text-red-500 text-sm mt-2">
+            Password must have at least 1 uppercase letter, 1 lowercase letter,
+            and 1 number
+          </div>
+          <div className="text-red-500 text-sm mt-2">
+            Password must have at least 1 of the following symbols "!@#$%&"
+          </div>
+        </div>
+      )}
       {passwordError && (
         <div className="text-red-500 text-sm mt-2">{passwordError}</div>
       )}
