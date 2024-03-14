@@ -15,7 +15,7 @@ const Button = ({ onClick, children }) => {
 // Blue Box Component
 const BlueBox = () => {
   return (
-    <div className="flex-1 min-h-full md:min-h-0 bg-blue-500 flex flex-col justify-center items-center text-center border-opacity-100 border-8 border-blue-400">
+    <div className="flex-1 min-h-full md:min-h-0 flex flex-col justify-center items-center text-center">
       <header className="text-4xl mb-10">Flashcard Game</header>
       <p className="mb-20">
         Lorem ipsum dolor sit amet consectetur, adipisicing elit. Hic iusto
@@ -57,7 +57,7 @@ const RedBox = () => {
 // Green Box Component
 const GreenBox = () => {
   return (
-    <div className="flex-1 min-h-full md:min-h-0 bg-green-500 flex flex-col justify-center items-center text-center border-opacity-100 border-8 border-green-400">
+    <div className="flex-1 min-h-full md:min-h-0 flex flex-col justify-center items-center text-center">
       <header className="text-4xl mb-10">About</header>
       <p>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi, quia
