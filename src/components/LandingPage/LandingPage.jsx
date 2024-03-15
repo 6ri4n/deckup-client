@@ -1,91 +1,18 @@
-import React from "react";
-
-// Reusable Button Component
-const Button = ({ onClick, children }) => {
-  return (
-    <button
-      onClick={onClick}
-      className="p-4 bg-gray-700 hover:bg-gray-800 text-white rounded-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none"
-    >
-      {children}
-    </button>
-  );
-};
-
-// Blue Box Component
-const BlueBox = () => {
-  return (
-    <div className="flex-1 min-h-full md:min-h-0 flex flex-col justify-center items-center text-center">
-      <header className="text-4xl mb-10">Flashcard Game</header>
-      <p className="mb-20">
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Hic iusto
-        doloribus, debitis mollitia dolore doloremque repudiandae, cum atque
-        voluptatum, reprehenderit quod maiores in fuga natus impedit.
-        Accusantium, rerum soluta! Molestiae!
-      </p>
-      <section className="flex gap-4">
-        <Button>Login</Button>
-        <Button>Sign Up</Button>
-      </section>
-      <section></section>
-    </div>
-  );
-};
-
-// Red Box Component
-const RedBox = () => {
-  return (
-    <div
-      className="bg-cover bg-center bg-no-repeat w-full h-full bg-opacity-20 justify-center items-center flex-1 flex"
-      style={{
-        backgroundImage:
-          "url('./src/components/LandingPage/Example-Image.jpeg')",
-      }}
-    >
-      {/* Content */}
-      <div className="bg-white bg-opacity-80 p-8 rounded-md">
-        <header className="text-4xl mb-6">Custom Header</header>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi, quia
-          accusamus! Provident modi nostrum odio?
-        </p>
-      </div>
-    </div>
-  );
-};
-
-// Green Box Component
-const GreenBox = () => {
-  return (
-    <div className="flex-1 min-h-full md:min-h-0 flex flex-col justify-center items-center text-center">
-      <header className="text-4xl mb-10">About</header>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi, quia
-        accusamus! Provident modi nostrum odio?
-      </p>
-    </div>
-  );
-};
+import About from "./About";
+import Intro from "./Intro";
+import ImageContainer from "./ImageContainer";
 
 function LandingPage() {
   return (
-    <div className="flex h-screen font-mono flex-col md:flex-row">
-      {/* Desktop View */}
-      <div className="hidden md:flex flex-1">
-        <div className="flex-1 flex flex-col">
-          <BlueBox />
-          <GreenBox />
-        </div>
-        <div className="flex-1">
-          <RedBox />
-        </div>
-      </div>
-      {/* Mobile View */}
-      <div className="md:hidden">
-        <BlueBox />
-        <RedBox />
-        <GreenBox />
-      </div>
+    <div className="h-screen font-mono">
+      <section className="mx-4 mt-8 mb-0 md:mx-12 md:mt-12 lg:flex lg:mx-24 lg:mt-24 lg:flex-col xl:flex-row xl:mb-24 xl:justify-between">
+        <Intro />
+        <ImageContainer />
+      </section>
+
+      <section className="mx-4 mb-4 mt-0 md:mx-12 md:mb-12 lg:mx-24 lg:mb-24">
+        <About />
+      </section>
     </div>
   );
 }
