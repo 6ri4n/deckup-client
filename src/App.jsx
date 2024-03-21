@@ -1,6 +1,5 @@
-import SignupPage from "./components/Signup/SignupPage";
-
 function App() {
-  return <SignupPage />;
+  return <div>Test</div>;
 }
+
 export default App;
