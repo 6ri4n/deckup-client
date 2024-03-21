@@ -1,6 +1,10 @@
-import SignupPage from "./components/Signup/SignupPage";
+import ToastNotif from "./components/ui/ToastNotif";
 
 function App() {
-  return <SignupPage />;
+  return (
+    <div>
+      <ToastNotif />
+    </div>
+  );
 }
 export default App;
