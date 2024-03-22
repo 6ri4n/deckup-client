@@ -1,11 +1,5 @@
-import ToastNotif from "./components/ui/ToastNotif";
-
 function App() {
-  return (
-    <div>
-      <ToastNotif />
-      <ToastNotif />
-    </div>
-  );
+  return <div>Test</div>;
 }
+
 export default App;
