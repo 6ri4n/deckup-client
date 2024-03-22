@@ -4,13 +4,17 @@ function ToastNotif({
   bgColor = "",
   borderColor = "",
   svgNameSpace = "",
-  status = "",
+  status = "Error",
   message = "",
+  uniformColor = "",
 }) {
-  // bgColor = "color-number" ex: blue-300 or rgb
-  // borderColor = "color-number" ex blue-300 or rgb
-  const bgColorData = bgColor ? bgColor : "green-100";
-  const borderColorData = borderColor ? borderColor : "green-600";
+  // bgColor = "bg-color-number" ex: blue-300
+  // borderColor = "border-color-number" ex: blue-600
+  // uniformColor = "text-color-number" ex: text-blue-600
+  const bgColorData = bgColor ? bgColor : "bg-green-100";
+  const borderColorData = borderColor ? borderColor : "border-green-600";
+  const uniformColorData = uniformColor ? uniformColor : "text-green-600";
+
   const [closed, setClosed] = useState(false);
   const [show, setShow] = useState(true);
 
@@ -28,9 +32,9 @@ function ToastNotif({
     <div className="flex min-h-screen justify-end">
       {!closed && (
         <div
-          className={`flex justify-center m-2 py-3 bg-${bgColorData} w-80 text-xs border rounded h-min border border-${borderColorData}`}
+          className={`flex m-2 py-3 ${bgColorData} w-80 text-xs border rounded h-min ${borderColorData} transition-transform transform hover:-translate-x-1`}
         >
-          <div className={`inline text-${borderColorData}`}>
+          <div className={`inline ${uniformColorData}`}>
             <svg
               xmlns={svgNameSpace ? svgNameSpace : "http://www.w3.org/2000/svg"}
               viewBox="0 0 24 24"
@@ -47,7 +51,7 @@ function ToastNotif({
             </svg>
           </div>
           <div className="flex flex-col space-y-1 inline">
-            <span className={`text-${borderColorData} font-medium`}>
+            <span className={`${uniformColorData} font-medium`}>
               {status ? status : "Success"}
             </span>
             <span className="block">
@@ -56,22 +60,24 @@ function ToastNotif({
                 : "This is a success toast and will be dismissed after 10 seconds"}
             </span>
           </div>
-          <button onClick={() => setClosed(true)} className="flex">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              className="w-10 h-4"
-            >
-              <path
-                stroke="currentColor"
-                strokeWidth={1}
-                fillRule="evenodd"
-                d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </button>
+          <div className="ml-auto">
+            <button onClick={() => setClosed(true)} className="flex">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                className="w-10 h-4"
+              >
+                <path
+                  stroke="currentColor"
+                  strokeWidth={1}
+                  fillRule="evenodd"
+                  d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </button>
+          </div>
         </div>
       )}
     </div>
