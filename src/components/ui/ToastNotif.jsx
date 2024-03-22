@@ -3,14 +3,18 @@ import { useState, useEffect } from "react";
 function ToastNotif({
   bgColor = "",
   borderColor = "",
-  svgNameSpace = "",
-  status = "Error",
-  message = "",
   uniformColor = "",
+  svgNameSpace = "",
+  status = "",
+  message = "",
 }) {
-  // bgColor = "bg-color-number" ex: blue-300
-  // borderColor = "border-color-number" ex: blue-600
-  // uniformColor = "text-color-number" ex: text-blue-600
+  // bgColor: takes "bg-color-number" format. ex: blue-300
+  // borderColor: takes "border-color-number" format. ex: blue-600
+  // uniformColor: takes "text-color-number" format. ex: text-blue-600
+  // svgNameSpace: takes the url of the svg icon you want to use, the rest of the styling is handled
+  // status: takes whatever status you want to use. ex: success, error, warning, ect
+  // message: takes the message of the status you want to display. ex: "This is a success toast and will be dismissed after 10 seconds"
+
   const bgColorData = bgColor ? bgColor : "bg-green-100";
   const borderColorData = borderColor ? borderColor : "border-green-600";
   const uniformColorData = uniformColor ? uniformColor : "text-green-600";
@@ -18,21 +22,21 @@ function ToastNotif({
   const [closed, setClosed] = useState(false);
   const [show, setShow] = useState(true);
 
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     setShow(false);
-  //   }, 10000);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShow(false);
+    }, 10000);
 
-  //   return () => clearTimeout(timer);
-  // }, []);
+    return () => clearTimeout(timer);
+  }, []);
 
-  // if (!show) return null;
+  if (!show) return null;
 
   return (
     <div className="flex min-h-screen justify-end">
       {!closed && (
         <div
-          className={`flex m-2 py-3 ${bgColorData} w-80 text-xs border rounded h-min ${borderColorData} transition-transform transform hover:-translate-x-1`}
+          className={`flex m-2 py-3 ${bgColorData} w-80 text-xs border rounded h-min ${borderColorData} transition-transform transform hover:-translate-x-1 shadow-lg`}
         >
           <div className={`inline ${uniformColorData}`}>
             <svg
