@@ -4,6 +4,7 @@ function App() {
   return (
     <div>
       <ToastNotif />
+      <ToastNotif />
     </div>
   );
 }
