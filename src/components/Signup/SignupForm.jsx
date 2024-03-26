@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import ValidateForm from "../utils/ValidateForm";
 import StrongPassword from "../utils/StrongPassword";
+import useApi from "../../hooks/useApi";
 
 function SignupForm() {
   const usernameRef = useRef(null);
