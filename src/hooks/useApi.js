@@ -89,7 +89,7 @@ const useApi = (method, endpoint, data = undefined) => {
   const retryRequest = async (requestMethod, cancelTokenSource) => {
     try {
       // attempt to refresh access token
-      const response = await axiosInstance.post("/account/refresh");
+      const response = await axiosInstance.post("/api/account/refresh");
       const newAccessToken = response.accessToken;
 
       // update headers and auth context
@@ -119,7 +119,13 @@ const useApi = (method, endpoint, data = undefined) => {
     }
   };
 
-  return { ...state, setPayload, setUrl, sendRequest };
+  const request = {
+    setPayload,
+    setUrl,
+    send: sendRequest,
+  };
+
+  return { ...state, request };
 };
 
 export default useApi;
