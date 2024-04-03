@@ -1,4 +1,6 @@
+import { Link } from "react-router-dom";
 import { useRef } from "react";
+import useApi from "../../hooks/useApi";
 
 function LoginForm() {
   const usernameRef = useRef(null);
@@ -12,6 +14,12 @@ function LoginForm() {
       username,
       password,
     };
+    const { data, loading, error, sendRequest } = useApi(
+      "POST",
+      "/account/login",
+      payload
+    );
+    sendRequest();
 
     usernameRef.current.value = "";
     passwordRef.current.value = "";
@@ -75,12 +83,12 @@ function LoginForm() {
       </div>
       <div className="flex text-center text-sm text-gray-500">
         <p>Don't have an account yet?</p>
-        <a
-          href="/#"
+        <Link
+          to="/signup"
           className="ml-1 font-semibold text-gray-600 hover:underline focus:text-gray-800 focus:outline-none"
         >
           Create Account
-        </a>
+        </Link>
         .
       </div>
     </form>
