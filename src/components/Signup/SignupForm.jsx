@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import ValidateForm from "../utils/ValidateForm";
 import StrongPassword from "../utils/StrongPassword";
 import useApi from "../../hooks/useApi";
@@ -13,6 +13,7 @@ function SignupForm() {
   const [strongPassError, setStrongPassError] = useState(false);
 
   const navigate = useNavigate();
+  const { request } = useApi("POST", "/account/signup");
 
   const FormValidation = () => {
     ValidateForm(
@@ -42,18 +43,17 @@ function SignupForm() {
         password,
       };
       try {
-        const { data, sendRequest } = await useApi(
-          "POST",
-          "/account/signup",
-          payload
-        );
-        sendRequest();
-
-        if (data) {
+        const response = await request.send(payload);
+        if (response && response.status === 200) {
           navigate("/");
+        } else {
+          console.error("Signup failed:", response?.data || "Unknown error");
         }
       } catch (error) {
-        console.error("Signup failed:", error);
+        console.error(
+          "Signup Failed:",
+          error?.response?.data || "Unknown error"
+        );
       }
     }
   };
@@ -141,12 +141,12 @@ function SignupForm() {
       </div>
       <div className="flex text-center text-sm text-gray-500">
         <p>Already have an account?</p>
-        <a
-          href="/#"
+        <Link
+          to="/login"
           className="ml-1 font-semibold text-gray-600 hover:underline focus:text-gray-800 focus:outline-none"
         >
           Login here
-        </a>
+        </Link>
         .
       </div>
     </form>
