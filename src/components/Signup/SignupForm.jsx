@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import ValidateForm from "../utils/ValidateForm";
 import StrongPassword from "../utils/StrongPassword";
 import useApi from "../../hooks/useApi";
@@ -10,6 +11,8 @@ function SignupForm() {
   const [passwordError, setPasswordError] = useState("");
   const [usernameError, setUsernameError] = useState("");
   const [strongPassError, setStrongPassError] = useState(false);
+
+  const navigate = useNavigate();
 
   const FormValidation = () => {
     ValidateForm(
@@ -27,7 +30,7 @@ function SignupForm() {
     FormValidation();
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const username = usernameRef.current.value;
     const password = passwordRef.current.value;
@@ -38,12 +41,20 @@ function SignupForm() {
         username,
         password,
       };
-      const { data, loading, error, sendRequest } = useApi(
-        "POST",
-        "/account/signup",
-        payload
-      );
-      sendRequest();
+      try {
+        const { data, sendRequest } = await useApi(
+          "POST",
+          "/account/signup",
+          payload
+        );
+        sendRequest();
+
+        if (data) {
+          navigate("/");
+        }
+      } catch (error) {
+        console.error("Signup failed:", error);
+      }
     }
   };
 
