@@ -120,7 +120,9 @@ const useApi = (method, endpoint, data = undefined) => {
   };
 
   const request = {
+    payload,
     setPayload,
+    url,
     setUrl,
     send: sendRequest,
   };
