@@ -1,5 +1,5 @@
-import { useRef, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useRef, useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import ValidateForm from "../utils/ValidateForm";
 import StrongPassword from "../utils/StrongPassword";
 import useApi from "../../hooks/useApi";
@@ -12,7 +12,6 @@ function SignupForm() {
   const [usernameError, setUsernameError] = useState("");
   const [strongPassError, setStrongPassError] = useState(false);
 
-  const navigate = useNavigate();
   const { data, loading, error, request } = useApi(
     "POST",
     "/api/account/signup"
@@ -35,36 +34,28 @@ function SignupForm() {
   };
 
   const handleSubmit = async (event) => {
-    console.log(request);
-
     event.preventDefault();
     const username = usernameRef.current.value;
     const password = passwordRef.current.value;
     StrongPassword(passwordRef, strongPassError, setStrongPassError);
     FormValidation();
     if (!passwordError && !usernameError && !strongPassError) {
-      const payload = {
+      request.setPayload({
         username,
         password,
-      };
-
-      console.log(payload);
-
-      try {
-        request.setPayload(payload);
-        console.log("set payload");
-        await request.send();
-        console.log("sent req");
-        if (!loading && !error.status) {
-          navigate("/");
-        } else {
-          console.error("Signup failed:", error);
-        }
-      } catch (error) {
-        console.error("Signup Failed:", error);
-      }
+      });
     }
   };
+
+  useEffect(() => {
+    const submitSignup = async () => {
+      if (request.payload) {
+        await request.send();
+      }
+    };
+
+    submitSignup();
+  }, [request.payload]);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -139,6 +130,9 @@ function SignupForm() {
       {passwordError && (
         <div className="text-red-500 text-sm mt-2">{passwordError}</div>
       )}
+      {loading && <div>Loading...</div>}
+      {error.status && <div className="text-red-500">{error.message}</div>}
+      {data && <div className="text-green-300">{data.message}</div>}
       <div className="my-12 flex justify-center">
         <button
           type="submit"
