@@ -16,7 +16,7 @@ function LoginForm() {
     };
     const { data, loading, error, sendRequest } = useApi(
       "POST",
-      "/account/login",
+      "api/account/login",
       payload
     );
     sendRequest();
@@ -59,11 +59,8 @@ function LoginForm() {
           Password
         </label>
       </div>
-      <div className="text-sm my-12 font-semibold text-gray-700 hover:text-black underline">
-        <a href="/#">Forgot password?</a>
-      </div>
-      <div className="flex items-center justify-between">
-        <label htmlFor="remember_me" className="block text-sm text-gray-900">
+      <div className="mt-5 flex items-center justify-between">
+        <label htmlFor="remember_me" className=" block text-sm text-gray-900">
           Remember me
         </label>
         <input
