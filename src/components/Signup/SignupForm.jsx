@@ -13,7 +13,10 @@ function SignupForm() {
   const [strongPassError, setStrongPassError] = useState(false);
 
   const navigate = useNavigate();
-  const { request } = useApi("POST", "/account/signup");
+  const { data, loading, error, request } = useApi(
+    "POST",
+    "/api/account/signup"
+  );
 
   const FormValidation = () => {
     ValidateForm(
@@ -32,28 +35,33 @@ function SignupForm() {
   };
 
   const handleSubmit = async (event) => {
+    console.log(request);
+
     event.preventDefault();
     const username = usernameRef.current.value;
     const password = passwordRef.current.value;
-    FormValidation();
     StrongPassword(passwordRef, strongPassError, setStrongPassError);
+    FormValidation();
     if (!passwordError && !usernameError && !strongPassError) {
       const payload = {
         username,
         password,
       };
+
+      console.log(payload);
+
       try {
-        const response = await request.send(payload);
-        if (response && response.status === 200) {
+        request.setPayload(payload);
+        console.log("set payload");
+        await request.send();
+        console.log("sent req");
+        if (!loading && !error.status) {
           navigate("/");
         } else {
-          console.error("Signup failed:", response?.data || "Unknown error");
+          console.error("Signup failed:", error);
         }
       } catch (error) {
-        console.error(
-          "Signup Failed:",
-          error?.response?.data || "Unknown error"
-        );
+        console.error("Signup Failed:", error);
       }
     }
   };
