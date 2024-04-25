@@ -1,39 +1,52 @@
-import SignupPage from "./pages/SignupPage";
-import LoginPage from "./pages/LoginPage";
-import LandingPage from "./pages/LandingPage";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import AuthProvider from "./components/AuthProvider";
+import ProtectedRoute from "./components/ProtectedRoute";
+import LandingPage from "./pages/LandingPage";
+import LoginPage from "./pages/LoginPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import SignupPage from "./pages/SignupPage";
 
 const router = createBrowserRouter([
   {
     path: "/signup",
     element: <SignupPage />,
-    errorElement: <NotFoundPage />,
   },
   {
     path: "/login",
     element: <LoginPage />,
-    errorElement: <NotFoundPage />,
   },
   {
     path: "/",
     element: <LandingPage />,
-    errorElement: <NotFoundPage />,
   },
   {
     path: "/home",
-    element: <div>Home Page</div>,
-    errorElement: <NotFoundPage />,
+    element: (
+      <ProtectedRoute>
+        <div>Home Page</div>
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/games",
-    element: <div>Games Page</div>,
-    errorElement: <NotFoundPage />,
+    element: (
+      <ProtectedRoute>
+        <div>Games Page</div>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "*",
+    element: <NotFoundPage />,
   },
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
+  );
 }
 
 export default App;
