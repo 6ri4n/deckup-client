@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 const AuthContext = createContext(null);
 
@@ -6,7 +6,7 @@ export default function AuthProvider({ children }) {
   const [user, setUser] = useState({ isSignedIn: false });
 
   const login = (userData) => {
-    setUser(userData);
+    setUser((prev) => ({ ...prev, ...userData, isSignedIn: true }));
   };
 
   const logout = () => {
