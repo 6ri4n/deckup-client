@@ -1,28 +1,18 @@
-import { Link } from "react-router-dom";
 import { useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import useApi from "../../hooks/useApi";
 
 function LoginForm() {
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
+  const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
+  const { loading, error, request } = useApi("POST", "/api/account/login");
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const username = usernameRef.current.value;
     const password = passwordRef.current.value;
-    const payload = {
-      username,
-      password,
-    };
-    const { data, loading, error, sendRequest } = useApi(
-      "POST",
-      "api/account/login",
-      payload
-    );
-    sendRequest();
-
-    usernameRef.current.value = "";
-    passwordRef.current.value = "";
   };
 
   return (
@@ -69,6 +59,10 @@ function LoginForm() {
           type="checkbox"
           className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
         />
+      </div>
+      <div>
+        {loading && <div>Loading...</div>}
+        {error.status && <div className="text-red-500">{error.message}</div>}
       </div>
       <div className="my-12 flex justify-center">
         <button
