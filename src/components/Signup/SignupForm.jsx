@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import ValidateForm from "../utils/ValidateForm";
 import StrongPassword from "../utils/StrongPassword";
 import useApi from "../../hooks/useApi";
@@ -10,6 +11,11 @@ function SignupForm() {
   const [passwordError, setPasswordError] = useState("");
   const [usernameError, setUsernameError] = useState("");
   const [strongPassError, setStrongPassError] = useState(false);
+
+  const { data, loading, error, request } = useApi(
+    "POST",
+    "/api/account/signup"
+  );
 
   const FormValidation = () => {
     ValidateForm(
@@ -27,23 +33,17 @@ function SignupForm() {
     FormValidation();
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const username = usernameRef.current.value;
     const password = passwordRef.current.value;
-    FormValidation();
     StrongPassword(passwordRef, strongPassError, setStrongPassError);
+    FormValidation();
     if (!passwordError && !usernameError && !strongPassError) {
-      const payload = {
+      request.setPayload({
         username,
         password,
-      };
-      const { data, loading, error, sendRequest } = useApi(
-        "POST",
-        "/account/signup",
-        payload
-      );
-      sendRequest();
+      });
     }
   };
 
@@ -120,6 +120,9 @@ function SignupForm() {
       {passwordError && (
         <div className="text-red-500 text-sm mt-2">{passwordError}</div>
       )}
+      {loading && <div>Loading...</div>}
+      {error.status && <div className="text-red-500">{error.message}</div>}
+      {data && <div className="text-green-300">{data.message}</div>}
       <div className="my-12 flex justify-center">
         <button
           type="submit"
@@ -130,12 +133,12 @@ function SignupForm() {
       </div>
       <div className="flex text-center text-sm text-gray-500">
         <p>Already have an account?</p>
-        <a
-          href="/#"
+        <Link
+          to="/login"
           className="ml-1 font-semibold text-gray-600 hover:underline focus:text-gray-800 focus:outline-none"
         >
           Login here
-        </a>
+        </Link>
         .
       </div>
     </form>

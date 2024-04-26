@@ -1,21 +1,36 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import useApi from "../../hooks/useApi";
+import { useAuth } from "../AuthProvider";
 
 function LoginForm() {
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
+  const navigate = useNavigate();
+  const { data, loading, error, sendRequest } = useApi();
+  const { login } = useAuth();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const username = usernameRef.current.value;
     const password = passwordRef.current.value;
-    const payload = {
-      username,
-      password,
-    };
 
-    usernameRef.current.value = "";
-    passwordRef.current.value = "";
+    try {
+      await sendRequest("POST", "/api/account/login", {
+        username,
+        password,
+      });
+    } catch (error) {
+      console.error(error);
+    }
   };
+
+  useEffect(() => {
+    if (data) {
+      login(data);
+      navigate("/home");
+    }
+  }, [data]);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -51,36 +66,26 @@ function LoginForm() {
           Password
         </label>
       </div>
-      <div className="text-sm my-12 font-semibold text-gray-700 hover:text-black underline">
-        <a href="/#">Forgot password?</a>
-      </div>
-      <div className="flex items-center justify-between">
-        <label htmlFor="remember_me" className="block text-sm text-gray-900">
-          Remember me
-        </label>
-        <input
-          id="remember_me"
-          name="remember_me"
-          type="checkbox"
-          className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-        />
+      <div>
+        {loading && <div>Loading...</div>}
+        {error.status && <div className="text-red-500">{error.message}</div>}
       </div>
       <div className="my-12 flex justify-center">
         <button
           type="submit"
           className="w-11/12 bg-blue-800 rounded-full p-1.5 text-white hover:bg-blue-900"
         >
-          Sign in
+          Login
         </button>
       </div>
       <div className="flex text-center text-sm text-gray-500">
         <p>Don't have an account yet?</p>
-        <a
-          href="/#"
+        <Link
+          to="/signup"
           className="ml-1 font-semibold text-gray-600 hover:underline focus:text-gray-800 focus:outline-none"
         >
           Create Account
-        </a>
+        </Link>
         .
       </div>
     </form>
