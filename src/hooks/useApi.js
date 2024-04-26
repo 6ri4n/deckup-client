@@ -14,17 +14,15 @@ const axiosInstance = axios.create({
   withCredentials: true,
 });
 
-const useApi = (method, endpoint, data = undefined) => {
+const useApi = () => {
   const [state, setState] = useState({
     data: undefined,
     loading: false,
     error: { status: undefined, message: undefined },
   });
-  const [payload, setPayload] = useState(data);
-  const [url, setUrl] = useState(endpoint);
-  const [cancelToken, setCancelToken] = useState(null);
+  const [cancelToken, setCancelToken] = useState(undefined);
 
-  const sendRequest = async () => {
+  const sendRequest = async (method, url, payload) => {
     let requestMethod;
 
     try {
@@ -119,15 +117,7 @@ const useApi = (method, endpoint, data = undefined) => {
     }
   };
 
-  const request = {
-    payload,
-    setPayload,
-    url,
-    setUrl,
-    send: sendRequest,
-  };
-
-  return { ...state, request };
+  return { ...state, sendRequest };
 };
 
 export default useApi;
