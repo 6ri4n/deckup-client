@@ -1,13 +1,14 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../AuthProvider";
 import useApi from "../../hooks/useApi";
+import { useAuth } from "../AuthProvider";
 
 function LoginForm() {
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
   const navigate = useNavigate();
   const { data, loading, error, sendRequest } = useApi();
+  const { login } = useAuth();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -15,16 +16,21 @@ function LoginForm() {
     const password = passwordRef.current.value;
 
     try {
-      const response = await sendRequest("POST", "/api/account/login", {
+      await sendRequest("POST", "/api/account/login", {
         username,
         password,
       });
-      const { login } = useAuth();
-      login(response);
     } catch (error) {
-      console.error("bruh...", error);
+      console.error(error);
     }
   };
+
+  useEffect(() => {
+    if (data) {
+      login(data);
+      navigate("/home");
+    }
+  }, [data]);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -59,17 +65,6 @@ function LoginForm() {
         >
           Password
         </label>
-      </div>
-      <div className="mt-5 flex items-center justify-between">
-        <label htmlFor="remember_me" className=" block text-sm text-gray-900">
-          Remember me
-        </label>
-        <input
-          id="remember_me"
-          name="remember_me"
-          type="checkbox"
-          className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-        />
       </div>
       <div>
         {loading && <div>Loading...</div>}
