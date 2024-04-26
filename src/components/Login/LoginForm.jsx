@@ -22,7 +22,7 @@ function LoginForm() {
       const { login } = useAuth();
       login(response);
     } catch (error) {
-      console.error("Error occurred during login:", error);
+      console.error("bruh...", error);
     }
   };
 
