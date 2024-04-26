@@ -1,18 +1,29 @@
 import { useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../AuthProvider";
 import useApi from "../../hooks/useApi";
 
 function LoginForm() {
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
   const navigate = useNavigate();
-
-  const { loading, error, request } = useApi("POST", "/api/account/login");
+  const { data, loading, error, sendRequest } = useApi();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const username = usernameRef.current.value;
     const password = passwordRef.current.value;
+
+    try {
+      const response = await sendRequest("POST", "/api/account/login", {
+        username,
+        password,
+      });
+      const { login } = useAuth();
+      login(response);
+    } catch (error) {
+      console.error("Error occurred during login:", error);
+    }
   };
 
   return (
@@ -69,7 +80,7 @@ function LoginForm() {
           type="submit"
           className="w-11/12 bg-blue-800 rounded-full p-1.5 text-white hover:bg-blue-900"
         >
-          Sign in
+          Login
         </button>
       </div>
       <div className="flex text-center text-sm text-gray-500">

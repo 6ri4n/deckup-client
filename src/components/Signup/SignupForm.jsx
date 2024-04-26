@@ -134,7 +134,7 @@ function SignupForm() {
       <div className="flex text-center text-sm text-gray-500">
         <p>Already have an account?</p>
         <Link
-          to="/signin"
+          to="/login"
           className="ml-1 font-semibold text-gray-600 hover:underline focus:text-gray-800 focus:outline-none"
         >
           Login here
