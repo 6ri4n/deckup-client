@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import ValidateForm from "../utils/ValidateForm";
 import StrongPassword from "../utils/StrongPassword";
@@ -46,16 +46,6 @@ function SignupForm() {
       });
     }
   };
-
-  useEffect(() => {
-    const submitSignup = async () => {
-      if (request.payload) {
-        await request.send();
-      }
-    };
-
-    submitSignup();
-  }, [request.payload]);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -144,7 +134,7 @@ function SignupForm() {
       <div className="flex text-center text-sm text-gray-500">
         <p>Already have an account?</p>
         <Link
-          to="/login"
+          to="/signin"
           className="ml-1 font-semibold text-gray-600 hover:underline focus:text-gray-800 focus:outline-none"
         >
           Login here
