@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import ValidateForm from "../utils/ValidateForm";
 import StrongPassword from "../utils/StrongPassword";
@@ -11,11 +11,7 @@ function SignupForm() {
   const [passwordError, setPasswordError] = useState("");
   const [usernameError, setUsernameError] = useState("");
   const [strongPassError, setStrongPassError] = useState(false);
-
-  const { data, loading, error, request } = useApi(
-    "POST",
-    "/api/account/signup"
-  );
+  const { data, loading, error, sendRequest } = useApi();
 
   const FormValidation = () => {
     ValidateForm(
@@ -40,10 +36,14 @@ function SignupForm() {
     StrongPassword(passwordRef, strongPassError, setStrongPassError);
     FormValidation();
     if (!passwordError && !usernameError && !strongPassError) {
-      request.setPayload({
-        username,
-        password,
-      });
+      try {
+        await sendRequest("POST", "/api/account/signup", {
+          username,
+          password,
+        });
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
@@ -122,7 +122,7 @@ function SignupForm() {
       )}
       {loading && <div>Loading...</div>}
       {error.status && <div className="text-red-500">{error.message}</div>}
-      {data && <div className="text-green-300">{data.message}</div>}
+      {data && <div className="text-green-600">{data.message}</div>}
       <div className="my-12 flex justify-center">
         <button
           type="submit"
