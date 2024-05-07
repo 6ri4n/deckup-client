@@ -5,6 +5,8 @@ import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import SignupPage from "./pages/SignupPage";
+import DeckView from "./components/Cards/DeckView";
+import HomePage from "./pages/HomePage";
 
 const router = createBrowserRouter([
   {
@@ -21,17 +23,13 @@ const router = createBrowserRouter([
   },
   {
     path: "/home",
-    element: (
-      <ProtectedRoute>
-        <div>Home Page</div>
-      </ProtectedRoute>
-    ),
+    element: <HomePage />,
   },
   {
     path: "/games",
     element: (
       <ProtectedRoute>
-        <div>Games Page</div>
+        <div>Games</div>
       </ProtectedRoute>
     ),
   },
