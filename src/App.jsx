@@ -5,6 +5,7 @@ import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import SignupPage from "./pages/SignupPage";
+import DeckView from "./components/Cards/DeckView";
 
 const router = createBrowserRouter([
   {
@@ -43,9 +44,10 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <AuthProvider>
-      <RouterProvider router={router} />
-    </AuthProvider>
+    <DeckView />
+    // <AuthProvider>
+    //   <RouterProvider router={router} />
+    // </AuthProvider>
   );
 }
 
