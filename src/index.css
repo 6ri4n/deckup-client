@@ -3,7 +3,4 @@
 @tailwind utilities;
 
 body,
-html {
-    overflow-x: hidden;
-    /* Prevent horizontal scrolling */
-}
+html {}
