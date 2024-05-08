@@ -1,19 +1,34 @@
 import { useState, useRef } from "react";
 import useDeck from "../../hooks/useDeck";
+import useApi from "../../hooks/useApi";
 import CardForm from "./CardForm";
 
-function CreateDeck() {
-  const [deck, setDeck] = useState([
-    {
-      term: "",
-      definition: "",
-    },
-  ]);
+function DeckView({ type, currentDeck }) {
+  const {
+    handleCreateCard,
+    handleUpdateCard,
+    handleEmptyCard,
+    handleRemoveCard,
+    checkAddCard,
+  } = useDeck(deck, setDeck);
 
-  const { handleCreateCard, handleUpdateCard, handleEmptyCard } = useDeck(
-    deck,
-    setDeck
+  const { data, loading, error, setPayload, sendRequest } = useApi(
+    "PATCH",
+    "/api/deck/edit"
   );
+
+  const [deck, setDeck] = useState(
+    type === "Create"
+      ? [
+          {
+            term: "",
+            definition: "",
+          },
+        ]
+      : currentDeck.flashcards
+  );
+
+  const canAddCard = checkAddCard();
 
   const onCard = useRef(0);
   const overCard = useRef(0);
@@ -28,26 +43,18 @@ function CreateDeck() {
     setDeck(deckClone);
   };
 
-  const checkAddCard = () => {
-    if (deck.length === 15) {
-      return false;
-    }
-
-    for (const card of deck) {
-      if (!(card.term && card.definition)) {
-        return false;
-      }
-    }
-
-    return true;
+  const handleSubmitDeck = () => {
+    const newDeck = handleEmptyCard();
   };
-
-  const canAddCard = checkAddCard();
 
   return (
     <>
-      <button className="m-8" onClick={() => console.log(handleEmptyCard())}>
-        Create
+      <button
+        className="m-8"
+        disabled={deck.length === 0}
+        onClick={handleSubmitDeck}
+      >
+        {type}
       </button>
 
       <div className="m-8 grid grid-cols-4 gap-4">
@@ -57,6 +64,7 @@ function CreateDeck() {
             handleUpdateCard={handleUpdateCard}
             current={{ card, index, cardAmount: deck.length }}
             drag={{ handleSwap, onCard, overCard }}
+            handleRemoveCard={handleRemoveCard}
           />
         ))}
         <button
@@ -75,4 +83,4 @@ function CreateDeck() {
   );
 }
 
-export default CreateDeck;
+export default DeckView;
