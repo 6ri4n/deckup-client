@@ -1,6 +1,4 @@
 const useDeck = (deck, setDeck) => {
-  // const [currentIndex, setCurrentIndex] = useState(0);
-
   const handleUpdateCard = (e, cardNum) => {
     const { name, value } = e.target;
 
@@ -9,23 +7,6 @@ const useDeck = (deck, setDeck) => {
         cardNum === index ? { ...currentCard, [name]: value } : currentCard
       )
     );
-  };
-
-  const handleDeckNavigation = (direction) => {
-    if (direction === "left") {
-      setCurrentIndex((prev) => prev - 1);
-    }
-
-    if (direction === "right") {
-      if (currentIndex < deck.length - 1) {
-        setCurrentIndex((prev) => prev + 1);
-      } else {
-        if (deck[currentIndex].term && deck[currentIndex].definition) {
-          handleCreateCard();
-          setCurrentIndex((prev) => prev + 1);
-        }
-      }
-    }
   };
 
   const handleCreateCard = () => {
@@ -48,11 +29,30 @@ const useDeck = (deck, setDeck) => {
     return deck;
   };
 
+  const handleRemoveCard = (target) => {
+    setDeck((prev) => prev.filter((_, index) => index !== target));
+  };
+
+  const checkAddCard = () => {
+    if (deck.length === 24) {
+      return false;
+    }
+
+    for (const card of deck) {
+      if (!(card.term && card.definition)) {
+        return false;
+      }
+    }
+
+    return true;
+  };
+
   return {
     handleCreateCard,
     handleUpdateCard,
-    handleDeckNavigation,
     handleEmptyCard,
+    handleRemoveCard,
+    checkAddCard,
   };
 };
 

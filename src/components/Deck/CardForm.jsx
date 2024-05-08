@@ -1,4 +1,4 @@
-function CardForm({ current, handleUpdateCard, drag }) {
+function CardForm({ current, handleUpdateCard, handleRemoveCard, drag }) {
   return (
     <form
       className="border-2 rounded w-fit"
@@ -8,7 +8,10 @@ function CardForm({ current, handleUpdateCard, drag }) {
       onDragEnd={drag.handleSwap}
       onDragOver={(e) => e.preventDefault()}
     >
-      <div>Card: {current.index + 1}</div>
+      <div className="flex justify-between">
+        <div>Card: {current.index + 1}</div>
+        <button onClick={() => handleRemoveCard(current.index)}>Remove</button>
+      </div>
       <div className="m-4">
         <label className="m-4">Term</label>
         <input
