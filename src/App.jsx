@@ -5,7 +5,6 @@ import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import SignupPage from "./pages/SignupPage";
-import DeckView from "./components/Cards/DeckView";
 import HomePage from "./pages/HomePage";
 
 const router = createBrowserRouter([
