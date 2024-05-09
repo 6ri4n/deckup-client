@@ -2,8 +2,20 @@ import { useState, useRef } from "react";
 import useDeck from "../../hooks/useDeck";
 import useApi from "../../hooks/useApi";
 import CardForm from "./CardForm";
+import { useAuth } from "../AuthProvider";
 
-function DeckView({ type, currentDeck }) {
+function Deck({ type, currentDeck }) {
+  const [deck, setDeck] = useState(
+    type === "Create"
+      ? [
+          {
+            term: "",
+            definition: "",
+          },
+        ]
+      : currentDeck.flashcards
+  );
+
   const {
     handleCreateCard,
     handleUpdateCard,
@@ -17,16 +29,7 @@ function DeckView({ type, currentDeck }) {
     "/api/deck/edit"
   );
 
-  const [deck, setDeck] = useState(
-    type === "Create"
-      ? [
-          {
-            term: "",
-            definition: "",
-          },
-        ]
-      : currentDeck.flashcards
-  );
+  const { user } = useAuth();
 
   const canAddCard = checkAddCard();
 
@@ -45,6 +48,9 @@ function DeckView({ type, currentDeck }) {
 
   const handleSubmitDeck = () => {
     const newDeck = handleEmptyCard();
+    console.log(user.userId);
+    console.log(newDeck);
+    console.log(currentDeck?._id);
   };
 
   return (
@@ -83,4 +89,4 @@ function DeckView({ type, currentDeck }) {
   );
 }
 
-export default DeckView;
+export default Deck;
