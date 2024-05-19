@@ -36,7 +36,7 @@ export default function AuthProvider({ children }) {
   }
 
   function setCookie(name, value) {
-    document.cookie = `${name}=${encodeURIComponent(value)};`;
+    document.cookie = `${name}=${encodeURIComponent(value)}; SameSite=Strict;`;
   }
 
   function deleteCookie(name) {
