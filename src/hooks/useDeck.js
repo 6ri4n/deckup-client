@@ -29,8 +29,8 @@ const useDeck = (deck, setDeck) => {
     return deck;
   };
 
-  const handleRemoveCard = (target) => {
-    setDeck((prev) => prev.filter((_, index) => index !== target));
+  const handleRemoveCard = (targetIndex) => {
+    setDeck((prevDeck) => prevDeck.filter((_, index) => index !== targetIndex));
   };
 
   const checkAddCard = () => {
