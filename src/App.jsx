@@ -6,9 +6,15 @@ import LoginPage from "./pages/LoginPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import SignupPage from "./pages/SignupPage";
 import HomePage from "./pages/HomePage";
+import CreateDeck from "./components/Deck/CreateDeck";
+import EditDeck from "./components/Deck/EditDeck";
 
 function App() {
   const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <LandingPage />,
+    },
     {
       path: "/signup",
       element: <SignupPage />,
@@ -18,18 +24,26 @@ function App() {
       element: <LoginPage />,
     },
     {
-      path: "/",
-      element: <LandingPage />,
-    },
-    {
       path: "/home",
-      element: <HomePage />,
-    },
-    {
-      path: "/games",
       element: (
         <ProtectedRoute>
-          <div>Games</div>
+          <HomePage />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: "/create-deck",
+      element: (
+        <ProtectedRoute>
+          <CreateDeck />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: "/edit-deck/:id",
+      element: (
+        <ProtectedRoute>
+          <EditDeck />
         </ProtectedRoute>
       ),
     },
