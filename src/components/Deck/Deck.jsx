@@ -1,8 +1,8 @@
-import { useState, useRef } from "react";
-import useDeck from "../../hooks/useDeck";
+import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import useApi from "../../hooks/useApi";
+import useDeck from "../../hooks/useDeck";
 import CardForm from "./CardForm";
-import { useAuth } from "../AuthProvider";
 
 function Deck({ type, currentDeck }) {
   const [deck, setDeck] = useState(
@@ -13,7 +13,7 @@ function Deck({ type, currentDeck }) {
             definition: "",
           },
         ]
-      : currentDeck.flashcards
+      : currentDeck[0].flashcards
   );
 
   const {
@@ -24,15 +24,13 @@ function Deck({ type, currentDeck }) {
     checkAddCard,
   } = useDeck(deck, setDeck);
 
-  const { data, loading, error, setPayload, sendRequest } = useApi(
-    "PATCH",
-    "/api/deck/edit"
-  );
+  const { loading, error, sendRequest } = useApi();
 
-  const { user } = useAuth();
+  const navigate = useNavigate();
 
   const canAddCard = checkAddCard();
 
+  const deckTitleRef = useRef("");
   const onCard = useRef(0);
   const overCard = useRef(0);
 
@@ -46,11 +44,30 @@ function Deck({ type, currentDeck }) {
     setDeck(deckClone);
   };
 
-  const handleSubmitDeck = () => {
+  const handleSubmitDeck = async () => {
     const newDeck = handleEmptyCard();
-    console.log(user.userId);
-    console.log(newDeck);
-    console.log(currentDeck?._id);
+
+    const payload = {
+      deck: {
+        deckTitle: deckTitleRef.current.value,
+        flashcards: newDeck,
+      },
+    };
+
+    try {
+      if (type === "Create") {
+        await sendRequest("POST", "/api/deck/create", payload);
+      } else {
+        await sendRequest("PATCH", "/api/deck/edit", {
+          ...payload,
+          _id: currentDeck[0]._id,
+        });
+      }
+    } catch (error) {
+      console.error(`Failed to ${type} user deck:`, error);
+    }
+
+    navigate("/home");
   };
 
   return (
@@ -62,6 +79,22 @@ function Deck({ type, currentDeck }) {
       >
         {type}
       </button>
+
+      <div className="m-4">
+        {loading && <div>Loading...</div>}
+        {error.status && <div className="text-red-500">{error.message}</div>}
+      </div>
+
+      <div className="m-4">
+        <label className="m-4">Deck Title</label>
+        <input
+          type="text"
+          name="title"
+          defaultValue={type === "Create" ? "" : currentDeck[0].deckTitle}
+          placeholder="Title..."
+          ref={deckTitleRef}
+        />
+      </div>
 
       <div className="m-8 grid grid-cols-4 gap-4">
         {deck.map((card, index) => (
