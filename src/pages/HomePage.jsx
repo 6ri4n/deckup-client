@@ -1,13 +1,11 @@
 import Navbar from "../components/layout/Navbar";
-import DeckView from "../components/Cards/DeckView";
-import SearchBar from "../components/ui/SearchBar";
+import DeckHomeView from "../components/Deck/DeckHomeView";
 
 const HomePage = () => {
   return (
     <>
       <Navbar />
-      <SearchBar />
-      <DeckView />
+      <DeckHomeView />
     </>
   );
 };
