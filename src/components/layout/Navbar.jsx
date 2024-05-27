@@ -33,8 +33,8 @@ function Navbar() {
               <a href="/home" className="hover:text-red-600">
                 Home
               </a>
-              <a href="/create-deck" className="hover:text-red-600">
-                Create
+              <a href="/deck-categories" className="hover:text-red-600">
+                Categories
               </a>
               <a
                 className="hover:text-red-600 hover:cursor-pointer"
@@ -57,10 +57,10 @@ function Navbar() {
               Home
             </a>
             <a
-              href="/create-deck"
+              href="/deck-categories"
               className="block py-2 px-4 text-sm hover:bg-gray-200 hover:text-red-600"
             >
-              Create
+              Categories
             </a>
             <a
               className="block py-2 px-4 text-sm hover:bg-gray-200 hover:text-red-600 hover:cursor-pointer"
