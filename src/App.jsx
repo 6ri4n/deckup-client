@@ -8,6 +8,7 @@ import SignupPage from "./pages/SignupPage";
 import HomePage from "./pages/HomePage";
 import CreateDeck from "./components/Deck/CreateDeck";
 import EditDeck from "./components/Deck/EditDeck";
+import CategoriesPage from "./pages/CategoriesPage";
 
 function App() {
   const router = createBrowserRouter([
@@ -28,6 +29,14 @@ function App() {
       element: (
         <ProtectedRoute>
           <HomePage />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: "/deck-categories",
+      element: (
+        <ProtectedRoute>
+          <CategoriesPage />
         </ProtectedRoute>
       ),
     },
