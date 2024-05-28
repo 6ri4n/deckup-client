@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import useApi from "../../hooks/useApi";
 import useDeck from "../../hooks/useDeck";
 import CardForm from "./CardForm";
+import DropdownCategories from "../Categories/DropdownCategories";
 
 function Deck({ type, currentDeck }) {
   const [deck, setDeck] = useState(
@@ -31,8 +32,12 @@ function Deck({ type, currentDeck }) {
   const canAddCard = checkAddCard();
 
   const deckTitleRef = useRef("");
+
   const onCard = useRef(0);
+
   const overCard = useRef(0);
+
+  const [selectedCategories, setSelectedCategories] = useState([]);
 
   const handleSwap = () => {
     const deckClone = [...deck];
@@ -50,6 +55,9 @@ function Deck({ type, currentDeck }) {
     const payload = {
       deck: {
         deckTitle: deckTitleRef.current.value,
+        categories: selectedCategories
+          .filter((category) => category.selected)
+          .map((category) => category._id),
         flashcards: newDeck,
       },
     };
@@ -118,6 +126,12 @@ function Deck({ type, currentDeck }) {
           Add
         </button>
       </div>
+
+      <DropdownCategories
+        deckCategories={currentDeck[0].categories}
+        selectedCategories={selectedCategories}
+        setSelectedCategories={setSelectedCategories}
+      />
     </>
   );
 }

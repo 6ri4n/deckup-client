@@ -50,7 +50,6 @@ function DisplayCategories({ updateCategories, setUpdateCategories }) {
       {!loading && data?.categories && (
         <>
           <h1>Categories:</h1>
-          {console.log(data)}
           {data.categories.map((category) => (
             <div key={category._id} className="flex">
               <input
