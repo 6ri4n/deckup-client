@@ -52,10 +52,6 @@ const DeckHomeView = ({ selectedCategory, setSelectedCategory }) => {
 
   return (
     <>
-      {(deckLoading || categoryLoading) && <div>Loading...</div>}
-      {(deckError.status || categoryError.status) && (
-        <div className="text-red-500">Something went wrong.</div>
-      )}
       <div className="flex">
         <>
           {categoryData && (
@@ -76,6 +72,10 @@ const DeckHomeView = ({ selectedCategory, setSelectedCategory }) => {
           )}
         </>
         <div className="flex flex-col grow">
+          {(deckLoading || categoryLoading) && <div>Loading...</div>}
+          {(deckError.status || categoryError.status) && (
+            <div className="text-red-500">Something went wrong.</div>
+          )}
           {deckData?.decks ? (
             <>
               <a href="/create-deck" className="flex flex-row-reverse">
