@@ -2,7 +2,7 @@ import { useState } from "react";
 import MobileButton from "../ui/MobileButton";
 import { useAuth } from "../AuthProvider";
 import useApi from "../../hooks/useApi";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Navbar() {
   const { logout } = useAuth();
@@ -30,18 +30,18 @@ function Navbar() {
           <div className="flex space-x-4 ">
             {/* primary nav */}
             <div className="hidden md:flex flex items-center space-x-8 px-10">
-              <a href="/home" className="hover:text-red-600">
+              <Link to="/home" className="hover:text-red-600">
                 Home
-              </a>
-              <a href="/deck-categories" className="hover:text-red-600">
+              </Link>
+              <Link to="/deck-categories" className="hover:text-red-600">
                 Categories
-              </a>
-              <a
+              </Link>
+              <Link
                 className="hover:text-red-600 hover:cursor-pointer"
                 onClick={handleLogout}
               >
                 Logout
-              </a>
+              </Link>
             </div>
           </div>
           {/* mobile button */}
@@ -50,24 +50,24 @@ function Navbar() {
         {/* mobile menu */}
         {expand && (
           <div className="md:hidden">
-            <a
-              href="/home"
+            <Link
+              to="/home"
               className="block py-2 px-4 text-sm hover:bg-gray-200 hover:text-red-600"
             >
               Home
-            </a>
-            <a
-              href="/deck-categories"
+            </Link>
+            <Link
+              to="/deck-categories"
               className="block py-2 px-4 text-sm hover:bg-gray-200 hover:text-red-600"
             >
               Categories
-            </a>
-            <a
+            </Link>
+            <Link
               className="block py-2 px-4 text-sm hover:bg-gray-200 hover:text-red-600 hover:cursor-pointer"
               onClick={handleLogout}
             >
               Logout
-            </a>
+            </Link>
           </div>
         )}
       </div>
